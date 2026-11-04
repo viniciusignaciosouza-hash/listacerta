@@ -1,0 +1,194 @@
+:root {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: #183229;
+	background: #f3f7f2;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	padding: 32px 16px;
+}
+
+main {
+	width: min(100%, 680px);
+	margin: 0 auto;
+}
+
+header {
+	margin-bottom: 24px;
+}
+
+h1 {
+	margin: 0 0 6px;
+	font-size: clamp(1.8rem, 5vw, 2.5rem);
+}
+
+header p {
+	margin: 0;
+	color: #60736a;
+}
+
+.panel {
+	padding: 22px;
+	background: white;
+	border: 1px solid #e1eae2;
+	border-radius: 16px;
+	box-shadow: 0 8px 24px #1832290a;
+}
+
+form {
+	display: grid;
+	grid-template-columns: 1fr 100px auto;
+	gap: 10px;
+}
+
+input,
+button {
+	min-height: 44px;
+	border-radius: 9px;
+	font: inherit;
+}
+
+input {
+	width: 100%;
+	padding: 9px 12px;
+	border: 1px solid #cbd9ce;
+	background: white;
+}
+
+input:focus {
+	outline: 3px solid #bce6c8;
+	border-color: #27854a;
+}
+
+button {
+	padding: 9px 16px;
+	border: 0;
+	background: #27854a;
+	color: white;
+	font-weight: 650;
+	cursor: pointer;
+}
+
+button:hover {
+	background: #1d6b3a;
+}
+
+.list-heading {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	margin: 25px 0 10px;
+}
+
+h2 {
+	margin: 0;
+	font-size: 1.1rem;
+}
+
+#counter {
+	color: #60736a;
+	font-size: .9rem;
+}
+
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 4px;
+	border-bottom: 1px solid #edf1ed;
+}
+
+li:last-child {
+	border-bottom: 0;
+}
+
+li input[type="checkbox"] {
+	width: 19px;
+	height: 19px;
+	min-height: 0;
+	accent-color: #27854a;
+}
+
+.item-name {
+	flex: 1;
+	overflow-wrap: anywhere;
+}
+
+.item-quantity {
+	color: #60736a;
+	white-space: nowrap;
+}
+
+li.done .item-name {
+	color: #87958c;
+	text-decoration: line-through;
+}
+
+.remove {
+	min-height: 34px;
+	padding: 5px 10px;
+	background: #fbeceb;
+	color: #a33b35;
+	font-size: .9rem;
+}
+
+.remove:hover {
+	background: #f5d9d7;
+}
+
+#empty {
+	padding: 24px 0 8px;
+	color: #75857b;
+	text-align: center;
+}
+
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 14px;
+}
+
+.clear {
+	background: transparent;
+	color: #60736a;
+	border: 1px solid #cbd9ce;
+}
+
+.clear:hover {
+	background: #f3f7f2;
+}
+
+@media (max-width: 520px) {
+	body {
+		padding: 22px 12px;
+	}
+
+	.panel {
+		padding: 16px;
+	}
+
+	form {
+		grid-template-columns: 1fr 88px;
+	}
+
+	form button {
+		grid-column: 1 / -1;
+	}
+
+	li {
+		gap: 8px;
+	}
+}
