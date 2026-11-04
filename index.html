@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ListaCerta — Lista de mercado</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<main>
+		<header>
+			<h1>🛒 ListaCerta</h1>
+			<p>Organize suas compras de mercado.</p>
+		</header>
+
+		<section class="panel" aria-label="Lista de compras">
+			<form id="product-form">
+				<input id="product-name" type="text" placeholder="Ex.: Arroz" aria-label="Nome do produto" maxlength="80" required>
+				<input id="product-quantity" type="text" placeholder="Quantidade" aria-label="Quantidade" maxlength="30">
+				<button type="submit">Adicionar</button>
+			</form>
+
+			<div class="list-heading">
+				<h2>Produtos</h2>
+				<span id="counter" aria-live="polite">0 produtos</span>
+			</div>
+			<ul id="product-list"></ul>
+			<p id="empty">Sua lista está vazia. Adicione um produto acima.</p>
+			<div class="actions">
+				<button id="clear-list" class="clear" type="button">Limpar lista</button>
+			</div>
+		</section>
+	</main>
+
+	<script>
+		const form = document.querySelector('#product-form');
+		const nameInput = document.querySelector('#product-name');
+		const quantityInput = document.querySelector('#product-quantity');
+		const list = document.querySelector('#product-list');
+		const emptyMessage = document.querySelector('#empty');
+		const counter = document.querySelector('#counter');
+		const storageKey = 'listacerta-products';
+		let products = JSON.parse(localStorage.getItem(storageKey) || '[]');
+
+		function save() {
+			localStorage.setItem(storageKey, JSON.stringify(products));
+			render();
+		}
+
+		function render() {
+			list.replaceChildren();
+			products.forEach((product, index) => {
+				const row = document.createElement('li');
+				if (product.done) row.classList.add('done');
+
+				const checkbox = document.createElement('input');
+				checkbox.type = 'checkbox';
+				checkbox.checked = product.done;
+				checkbox.setAttribute('aria-label', `Marcar ${product.name} como comprado`);
+				checkbox.addEventListener('change', () => {
+					products[index].done = checkbox.checked;
+					save();
+				});
+
+				const name = document.createElement('span');
+				name.className = 'item-name';
+				name.textContent = product.name;
+				row.append(checkbox, name);
+
+				if (product.quantity) {
+					const quantity = document.createElement('span');
+					quantity.className = 'item-quantity';
+					quantity.textContent = product.quantity;
+					row.append(quantity);
+				}
+
+				const remove = document.createElement('button');
+				remove.className = 'remove';
+				remove.type = 'button';
+				remove.textContent = 'Remover';
+				remove.setAttribute('aria-label', `Remover ${product.name}`);
+				remove.addEventListener('click', () => {
+					products.splice(index, 1);
+					save();
+				});
+				row.append(remove);
+				list.append(row);
+			});
+
+			emptyMessage.hidden = products.length > 0;
+			counter.textContent = `${products.length} ${products.length === 1 ? 'produto' : 'produtos'}`;
+		}
+
+		form.addEventListener('submit', (event) => {
+			event.preventDefault();
+			const name = nameInput.value.trim();
+			if (!name) return;
+			products.push({ name, quantity: quantityInput.value.trim(), done: false });
+			form.reset();
+			nameInput.focus();
+			save();
+		});
+
+		document.querySelector('#clear-list').addEventListener('click', () => {
+			products = [];
+			save();
+		});
+
+		render();
+	</script>
+</body>
+</html>
